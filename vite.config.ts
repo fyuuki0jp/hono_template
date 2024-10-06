@@ -21,6 +21,11 @@ export default defineConfig(({ mode }) => {
                   'react-dom': 'hono/jsx/dom'
                 }
             },
+            plugins:[
+                devServer({
+                    entry: "/src/main.ts"
+                })
+            ]
         }
     }
 })

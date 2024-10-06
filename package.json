@@ -8,7 +8,7 @@
     "build:server": "bun --bun x vite build",
     "prisma:migrate": "bunx prisma migrate dev",
     "prisma:generate": "bunx prisma generate",
-    "prisma:reset": "bunx prisma migrate reset",
+    "prisma:reset": "bunx prisma migrate reset"
 
   },
   "dependencies": {

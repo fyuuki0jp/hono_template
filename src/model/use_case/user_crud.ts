@@ -6,7 +6,8 @@ import { zValidator } from "@hono/zod-validator";
 export type UserSchema = User
 
 export async function getAllUsers():Promise<User[]> {
-    const users = await prisma.user.findMany()
+    const users = await prisma.user.findMany({take: 5})
+    console.log(users)
     return users
 }
 
@@ -17,6 +18,7 @@ const createUserParam = z.object({
 export const createUserValidator = zValidator('json',createUserParam)
 
 export async function createUser(user:z.infer<typeof createUserParam>):Promise<User> {
+    console.log(user)
     const createdUser = await prisma.user.create({
         data: user
     })

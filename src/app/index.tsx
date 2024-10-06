@@ -10,13 +10,13 @@ function Counter() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const client = hc<UserAPI>('http://192.168.247.2:3000/api/users')
+        const client = hc<UserAPI>('/api/users')
         const users = await client.alluser.$get()
         console.log(users)
         if (users.ok) {
           const data = await users.json()
           console.log(data)
-          // setUsers(data)
+          setUsers(data)
         }
         else {
           throw "response is not ok"
@@ -36,6 +36,7 @@ function Counter() {
     <div>
       <p>Count: {count}</p>
       <button onClick={() => setCount(count + 1)}>Increment</button>
+      {users.map((user)=>[<p>{user.user_name}</p>])}
       <button onClick={() => {
         const client = hc<UserAPI>('/api/users')
         client.index.$post({ json: { user_name: "hoge" } })
