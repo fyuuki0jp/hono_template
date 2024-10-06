@@ -15,6 +15,9 @@ export default defineConfig(({ mode }) => {
         }
     } else {
         return {
+            server: {
+                host: true
+            },
             resolve: {
                 alias: {
                   react: 'hono/jsx/dom',
