@@ -19,10 +19,29 @@ generator zod {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
-  extensions = [uuidOssp(map: "uuid-ossp")]
+  extensions = [uuidOssp(map: "uuid-ossp"),pgvector(map: "vector", schema: "public")]
 }
 
 model User {
   user_id   String @id      @default(dbgenerated("uuid_generate_v4()"))
   user_name String @db.Text
+}
+
+model Document {
+  document_id String @id @default(dbgenerated("uuid_generate_v4()"))
+  title       String @db.Text
+  content     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  embedding   Unsupported("vector")
+}
+
+model Page {
+  page_id String @id @default(dbgenerated("uuid_generate_v4()"))
+  document_id String @map("document_id")
+  page Int @db.Integer
+  content String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  embedding   Unsupported("vector")
 }
