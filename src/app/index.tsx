@@ -1,60 +1,55 @@
-import { hcAppType } from "../main"
+import { UserAPI,User } from "../api/user/route"
+import { hc } from "hono/client"
 import { useEffect, useState } from 'hono/jsx'
-import { render } from 'hono/jsx/dom'
-
-type User = {
-  user_id: string,
-  user_name: string
-}
+import { render } from "hono/jsx/dom";
 
 function Counter() {
-    const [count, setCount] = useState(0)
-    const [users, setUsers] = useState<User[]>([])
-    const [loading,setLoading] = useState(true)
-    useEffect(() => {
-      const fetchData = async () => {
-        try {
-          const client = hcAppType('/')
-          const users = await client.api.users.$get()
-          if ( users.ok ) {
-            const data = await users.json()
-            setUsers(data)
-          }
-          else {
-            throw "response is not ok"
-          }
+  const [count, setCount] = useState(0)
+  const [users, setUsers] = useState<User[]>([])
+  const [loading, setLoading] = useState(true)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const client = hc<UserAPI>('http://192.168.247.2:3000/api/users')
+        const users = await client.alluser.$get()
+        console.log(users)
+        if (users.ok) {
+          const data = await users.json()
+          console.log(data)
+          // setUsers(data)
         }
-        catch (error) {
-          console.log("fetch failed:",error)
-        }
-        finally {
-          setLoading(false);
+        else {
+          throw "response is not ok"
         }
       }
+      catch (error) {
+        console.log("fetch failed:", error)
+      }
+      finally {
+        setLoading(false);
+      }
+    }
 
-      fetchData()
-    },[])
-    return (
-      <div>
-        <p>Count: {count}</p>
-        <button onClick={() => setCount(count + 1)}>Increment</button>
-        {users.forEach((user) => {<p>{user.user_name}</p>})}
-      </div>
-    )
-  }
-  
-function App() {
+    fetchData()
+  }, [])
   return (
-    <html>
-      <body>
-        <Counter />
-      </body>
-    </html>
+    <div>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>Increment</button>
+      <button onClick={() => {
+        const client = hc<UserAPI>('/api/users')
+        client.index.$post({ json: { user_name: "hoge" } })
+      }}>test</button>
+    </div>
   )
 }
 
-const root = document.getElementById('root')
-if (root===null)
-  console.log("error: html node is not root element")
-else
-  render(<App />, root)
+export function App() {
+  return (
+    <div>
+      <Counter />
+    </div>
+  )
+}
+
+render(<App/>,document.getElementById("app")!);

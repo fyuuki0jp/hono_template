@@ -1,20 +1,31 @@
 {
   "name": "hono_template",
   "scripts": {
-    "dev": "bun run --hot server/main.ts",
+    "dev": "bunx vite",
+    "dev:server": "bun run --hot src/main.ts",
+    "build": "bun run build:client",
+    "build:client": "bun --bun x vite build --mode client",
+    "build:server": "bun --bun x vite build",
     "prisma:migrate": "bunx prisma migrate dev",
     "prisma:generate": "bunx prisma generate",
-    "ui:dev": "vite"
+    "prisma:reset": "bunx prisma migrate reset",
+
   },
   "dependencies": {
     "@hono/zod-validator": "^0.3.0",
     "@prisma/client": "^5.20.0",
     "hono": "^4.6.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
     "zod": "^3.23.8",
     "zod-prisma-types": "^3.1.8"
   },
   "devDependencies": {
+    "@hono/vite-dev-server": "^0.16.0",
     "@types/bun": "latest",
+    "@types/react": "^18.3.11",
+    "@types/react-dom": "^18.3.0",
+    "dotenv-cli": "^7.4.2",
     "prisma": "^5.20.0",
     "tsx": "^4.19.1",
     "vite": "^5.4.8"

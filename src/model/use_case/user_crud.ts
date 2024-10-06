@@ -3,6 +3,8 @@ import { User } from "@prisma/client"
 import { z } from "zod"
 import { zValidator } from "@hono/zod-validator";
 
+export type UserSchema = User
+
 export async function getAllUsers():Promise<User[]> {
     const users = await prisma.user.findMany()
     return users
