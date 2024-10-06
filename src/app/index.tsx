@@ -1,9 +1,6 @@
-import type {UserAPI} from "../main"
-import { hc } from 'hono/client'
+import { hcAppType } from "../main"
 import { useEffect, useState } from 'hono/jsx'
 import { render } from 'hono/jsx/dom'
-
-const client = hc<UserAPI>('/')
 
 type User = {
   user_id: string,
@@ -17,6 +14,7 @@ function Counter() {
     useEffect(() => {
       const fetchData = async () => {
         try {
+          const client = hcAppType('/')
           const users = await client.api.users.$get()
           if ( users.ok ) {
             const data = await users.json()

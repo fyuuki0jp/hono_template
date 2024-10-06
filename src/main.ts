@@ -1,14 +1,14 @@
 import { Hono } from 'hono'
 import { users } from './api/user/route'
+import { hc } from 'hono/client'
 
 const app = new Hono()
 
-const user_api = app.route('/api/users', users)
+app.route('/api/users', users)
 
-app.get('/', (c) => {
-  return c.text('Hello Hono!')
-})
+const client = hc<typeof app>('')
+export type Client = typeof client
 
-export type UserAPI = typeof user_api
+export const hcAppType = (...args: Parameters<typeof hc>): Client => hc<typeof app>(...args)
 
 export default app
