@@ -1,7 +1,8 @@
-import { UserAPI,User } from "../api/user/route"
-import { hc } from "hono/client"
+import { hc } from 'hono/client'
 import { useEffect, useState } from 'hono/jsx'
-import { render } from "hono/jsx/dom";
+import { render } from 'hono/jsx/dom'
+import type { User, UserAPI } from '../api/user/route'
+import Button from './components/Button'
 
 function Counter() {
   const [count, setCount] = useState(0)
@@ -17,16 +18,13 @@ function Counter() {
           const data = await users.json()
           console.log(data)
           setUsers(data)
+        } else {
+          throw 'response is not ok'
         }
-        else {
-          throw "response is not ok"
-        }
-      }
-      catch (error) {
-        console.log("fetch failed:", error)
-      }
-      finally {
-        setLoading(false);
+      } catch (error) {
+        console.log('fetch failed:', error)
+      } finally {
+        setLoading(false)
       }
     }
 
@@ -35,12 +33,21 @@ function Counter() {
   return (
     <div>
       <p>Count: {count}</p>
-      <button onClick={() => setCount(count + 1)}>Increment</button>
-      {users.map((user)=>[<p>{user.user_name}</p>])}
-      <button onClick={() => {
-        const client = hc<UserAPI>('/api/users')
-        client.index.$post({ json: { user_name: "hoge" } })
-      }}>test</button>
+      <Button onClick={() => setCount(count + 1)} buttonType="primary">
+        Increment
+      </Button>
+      {users.map((user, idx) => [
+        <p key={`user_${idx.toString()}`}>{user.user_name}</p>,
+      ])}
+      <Button
+        onClick={() => {
+          const client = hc<UserAPI>('/api/users')
+          client.index.$post({ json: { user_name: 'hoge' } })
+        }}
+        buttonType="secondary"
+      >
+        test
+      </Button>
     </div>
   )
 }
@@ -53,4 +60,4 @@ export function App() {
   )
 }
 
-render(<App/>,document.getElementById("app")!);
+render(<App />, document.getElementById('app') as HTMLElement)
