@@ -10,7 +10,9 @@
 			"extensions": [
 				"Prisma.prisma",
 				"Chanzhaoyu.hono-snippets",
-				"ms-playwright.playwright"
+				"ms-playwright.playwright",
+				"biomejs.biome",
+				"bradlc.vscode-tailwindcss"
 			]
 		}
 	}

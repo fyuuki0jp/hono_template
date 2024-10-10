@@ -3,21 +3,15 @@
     "strict": true,
     "module": "ESNext",
     "target": "ESNext",
-    "moduleResolution":"Bundler",
+    "moduleResolution": "Bundler",
     /* paths */
     "paths": {
       "react": ["./node_modules/hono/dist/jsx/dom"],
       "react-dom": ["./node_modules/hono/dist/jsx/dom"]
     },
-    "lib": [
-      "ESNext",
-      "DOM",
-      "DOM.Iterable"
-    ],
-    "types": [
-      "vite/client"
-    ],
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "types": ["vite/client"],
     "jsx": "react-jsx",
-    "jsxImportSource": "hono/jsx"
+    "jsxImportSource": "react"
   }
 }
